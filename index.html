@@ -16,7 +16,9 @@
         <img id="mountain" crossorigin="anonymous" src="img/mountain.jpg">
         <img id="seals" crossorigin="anonymous" src="img/seals.jpg">
         <img id="skyline" crossorigin="anonymous" src="img/skyline.jpg">
+        <img id="beach" crossorigin="anonymous" src="img/beach.jpg">
         <img id="night" crossorigin="anonymous" src="img/night.jpg">
+        <img id="park" crossorigin="anonymous" src="img/park.jpg">
 
         <script id="link" type="text/html">
           <a-entity class="link"
@@ -34,11 +36,15 @@
              animation__fade="property: components.material.material.color; type: color; from: #FFF; to: #000; dur: 300; startEvents: fade"
              animation__fadeback="property: components.material.material.color; type: color; from: #000; to: #FFF; dur: 300; startEvents: animationcomplete__fade"></a-sky>
 
-      <a-entity id="links" layout="type: line; margin: 1.5" position="-2 -1 -4">
-        <a-entity template="src: #link" data-src="#mountain" data-thumb="#mountain"></a-entity>
-        <a-entity template="src: #link" data-src="#seals" data-thumb="#seals"></a-entity>
-        <a-entity template="src: #link" data-src="#skyline" data-thumb="#skyline"></a-entity>
+        <a-entity id="links1" layout="type: line; margin: 1.5" position="0 1 -4">
+                    <a-entity template="src: #link" data-src="#mountain" data-thumb="#mountain"></a-entity>
+                    <a-entity template="src: #link" data-src="#seals" data-thumb="#seals"></a-entity>
+                    <a-entity template="src: #link" data-src="#skyline" data-thumb="#skyline"></a-entity>
+        </a-entity>
+       <a-entity id="links2" layout="type: line; margin: 1.5" position="0 -1 -4">
+        <a-entity template="src: #link" data-src="#beach" data-thumb="#beach"></a-entity>
         <a-entity template="src: #link" data-src="#night" data-thumb="#night"></a-entity>
+        <a-entity template="src: #link" data-src="#park" data-thumb="#park"></a-entity>
       </a-entity>
 
       <a-entity id="camera" camera look-controls>
