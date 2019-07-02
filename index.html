@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>360&deg; Image Gallery</title>
+    <title>360° Gallerie</title>
     <meta name="description" content="360&deg; Image Gallery - A-Frame">
     <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@5/dist/aframe-event-set-component.min.js"></script>
@@ -16,17 +16,17 @@
         <img id="mountain" crossorigin="anonymous" src="img/mountain.jpg">
         <img id="seals" crossorigin="anonymous" src="img/seals.jpg">
         <img id="skyline" crossorigin="anonymous" src="img/skyline.jpg">
+        <img id="night" crossorigin="anonymous" src="img/night.jpg">
 
-        <!-- Image link template to be reused. -->
         <script id="link" type="text/html">
           <a-entity class="link"
             geometry="primitive: plane; height: 1; width: 1"
             material="shader: flat; src: ${thumb}"
-            event-set__mouseenter="scale: 1.2 1.2 1"
+            event-set__mouseenter="scale: 2 2 2" 
             event-set__mouseleave="scale: 1 1 1"
             event-set__click="_target: #image-360; _delay: 300; material.src: ${src}"
             proxy-event="event: click; to: #image-360; as: fade"
-            sound="on: click; src: #click-sound"></a-entity>
+          ></a-entity>
         </script>
       </a-assets>
 
@@ -34,21 +34,19 @@
              animation__fade="property: components.material.material.color; type: color; from: #FFF; to: #000; dur: 300; startEvents: fade"
              animation__fadeback="property: components.material.material.color; type: color; from: #000; to: #FFF; dur: 300; startEvents: animationcomplete__fade"></a-sky>
 
-      <a-entity id="links" layout="type: line; margin: 1.5" position="0 -1 -4">
+      <a-entity id="links" layout="type: line; margin: 1.5" position="-2 -1 -4">
         <a-entity template="src: #link" data-src="#mountain" data-thumb="#mountain"></a-entity>
         <a-entity template="src: #link" data-src="#seals" data-thumb="#seals"></a-entity>
         <a-entity template="src: #link" data-src="#skyline" data-thumb="#skyline"></a-entity>
+        <a-entity template="src: #link" data-src="#night" data-thumb="#night"></a-entity>
       </a-entity>
 
-      <!-- Camera + cursor. -->
       <a-entity id="camera" camera look-controls>
-        <a-cursor
-          id="cursor"
-          animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
-          animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
-          event-set__mouseenter="_event: mouseenter; color: springgreen"
-          event-set__mouseleave="_event: mouseleave; color: black"
-          raycaster="objects: .link"></a-cursor>
+            <a-entity cursor="fuse: true; fuseTimeout: 1000"
+            position="0 0 -4"
+            geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+            material="color: red; shader: flat">
+  </a-entity>
       </a-entity>
     </a-scene>
   </body>
