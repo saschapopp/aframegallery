@@ -5,7 +5,7 @@
     <title>360° Galerie</title>
     <meta name="description" content="360&deg; Image Gallery - A-Frame">
     <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
-    <!--community Komponenten über github oder npm verfügbar, wie event-set handling-->
+    <!--community Komponenten über github oder npm verfügbar, wie event-set handling, layout, proxy event und template-->
     <script src="https://unpkg.com/aframe-event-set-component@5/dist/aframe-event-set-component.min.js"></script>
     <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script>
     <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
@@ -23,7 +23,7 @@
         <img id="park" crossorigin="anonymous" src="img/park.jpg">
 
         <script id="link" type="text/html">
-          <!--entität zum wechseln der Bilder, material=shader flat, damit Belichtung nicht beeinflusst wird
+          <!--entität zum wechseln der Bilder, material=shader: flat, damit Belichtung nicht beeinflusst wird
           ${thumb} variable damit jede Instanz des Templates veränderbar ist-->
           <!--event set für visuelles Feedback, größer, kleiner mouseover, mouseleave-->
           <!--event set_click mit Verzögerung von 300, material.src wird festgelegt für fade-to black animation-->
@@ -35,7 +35,8 @@
             event-set__click="_target: #image-360; _delay: 300; material.src: ${src}"
             proxy-event="event: click; to: #image-360; as: fade"
           ></a-entity>
-        <!--proxy-event zum Hintergrund ändern, Ereignis von einer Entität an eine andere zu übergeben--></script>
+        <!--proxy-event zum Hintergrund ändern, Ereignis von einer Entität an eine andere zu übergeben-->
+      </script>
       </a-assets>
       <!--a-sky ist ursprünglich auf mountain gesetzt-->
       <!--animation fade schwarz, hört auf Ereignis, was zuvor vertreten wurde-->
@@ -46,7 +47,7 @@
              animation__fadeback="property: components.material.material.color; type: color; from: #000; to: #FFF; dur: 300; startEvents: animationcomplete__fade"></a-sky>
         <!--auflistung der einzelnen Bilder, datathumb ist das Vorschaubild
         template komponente für 360° Bilder, template engine kann Gruppen von Entitäten kapseln, Daten zum Generieren von Entitäten übergebn
-        oder Iterationen durchführen, ein Link in drei verwandeln oder HTML kopieren zu müssen, template Komponente-->
+        oder Iterationen durchführen, ein Link in drei verwandeln ohne HTML kopieren zu müssen, template Komponente-->
         <!--layout line, damit nicht überlappt, müssen nicht mit Positionen rechnen-->  
       <a-entity id="links1" layout="type: line; margin: 1.5" position="0 1 -4">
                     <!--templates für Links-->
@@ -62,6 +63,7 @@
       </a-entity>
       <!--Darstellung des roten Kreises-->
       <a-entity id="camera" camera look-controls>
+            <!--fuse: true - sicherungsbasiert, löst Klick aus, wenn der Benutzer eine bestimme zeit laug auf eine entität starrt-->
             <a-entity cursor="fuse: true; fuseTimeout: 1500"
             position="0 0 -4"
             geometry="primitive: ring; radiusInner: 0.1; radiusOuter: 0.2"
