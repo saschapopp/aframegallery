@@ -5,6 +5,7 @@
     <title>360° Galerie</title>
     <meta name="description" content="360&deg; Image Gallery - A-Frame">
     <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
+    <!--community Komponenten über github oder npm verfügbar, wie event-set handling-->
     <script src="https://unpkg.com/aframe-event-set-component@5/dist/aframe-event-set-component.min.js"></script>
     <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script>
     <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
@@ -12,6 +13,7 @@
   </head>
   <body>
     <a-scene>
+      <!--assets für Medien-Management-->
       <a-assets>
         <img id="mountain" crossorigin="anonymous" src="img/mountain.jpg">
         <img id="seals" crossorigin="anonymous" src="img/seals.jpg">
@@ -21,6 +23,10 @@
         <img id="park" crossorigin="anonymous" src="img/park.jpg">
 
         <script id="link" type="text/html">
+          <!--entität zum wechseln der Bilder, material=shader flat, damit Belichtung nicht beeinflusst wird
+          ${thumb} variable damit jede Instanz des Templates veränderbar ist-->
+          <!--event set für visuelles Feedback, größer, kleiner mouseover, mouseleave-->
+          <!--event set_click mit Verzögerung von 300, material.src wird festgelegt für fade-to black animation-->
           <a-entity class="link"
             geometry="primitive: plane; height: 1; width: 1"
             material="shader: flat; src: ${thumb}"
@@ -29,24 +35,32 @@
             event-set__click="_target: #image-360; _delay: 300; material.src: ${src}"
             proxy-event="event: click; to: #image-360; as: fade"
           ></a-entity>
-        </script>
+        <!--proxy-event zum Hintergrund ändern, Ereignis von einer Entität an eine andere zu übergeben--></script>
       </a-assets>
-
+      <!--a-sky ist ursprünglich auf mountain gesetzt-->
+      <!--animation fade schwarz, hört auf Ereignis, was zuvor vertreten wurde-->
+      <!--animation fadeback wird nach animation_fade gestartet, indem actioncomplete_fade Ereignis angehört wird, das von der Animationskomponente ausgegeben wird,
+      wenn eine Animation beendet ist.-->
       <a-sky id="image-360" radius="10" src="#mountain"
              animation__fade="property: components.material.material.color; type: color; from: #FFF; to: #000; dur: 300; startEvents: fade"
              animation__fadeback="property: components.material.material.color; type: color; from: #000; to: #FFF; dur: 300; startEvents: animationcomplete__fade"></a-sky>
-
-        <a-entity id="links1" layout="type: line; margin: 1.5" position="0 1 -4">
+        <!--auflistung der einzelnen Bilder, datathumb ist das Vorschaubild
+        template komponente für 360° Bilder, template engine kann Gruppen von Entitäten kapseln, Daten zum Generieren von Entitäten übergebn
+        oder Iterationen durchführen, ein Link in drei verwandeln oder HTML kopieren zu müssen, template Komponente-->
+        <!--layout line, damit nicht überlappt, müssen nicht mit Positionen rechnen-->  
+      <a-entity id="links1" layout="type: line; margin: 1.5" position="0 1 -4">
+                    <!--templates für Links-->
                     <a-entity template="src: #link" data-src="#mountain" data-thumb="#mountain"></a-entity>
                     <a-entity template="src: #link" data-src="#seals" data-thumb="#seals"></a-entity>
                     <a-entity template="src: #link" data-src="#skyline" data-thumb="#skyline"></a-entity>
         </a-entity>
+        <!--2. Zeile der Auflistung-->
        <a-entity id="links2" layout="type: line; margin: 1.5" position="0 -1 -4">
         <a-entity template="src: #link" data-src="#beach" data-thumb="#beach"></a-entity>
         <a-entity template="src: #link" data-src="#night" data-thumb="#night"></a-entity>
         <a-entity template="src: #link" data-src="#park" data-thumb="#park"></a-entity>
       </a-entity>
-
+      <!--Darstellung des roten Kreises-->
       <a-entity id="camera" camera look-controls>
             <a-entity cursor="fuse: true; fuseTimeout: 1500"
             position="0 0 -4"
